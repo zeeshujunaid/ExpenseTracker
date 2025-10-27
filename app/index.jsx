@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ImageBackground,StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground,StatusBar, Image } from "react-native";
 import { router } from "expo-router";
 
 export default function WelcomeScreen() {
@@ -25,6 +25,10 @@ export default function WelcomeScreen() {
           left: 0,
           backgroundColor: "rgba(0,0,0,0.5)",
         }}
+      />
+
+      <Image source={require("../assets/images/expensetrackerlogo.png")}
+      style={{width:150, height:100, marginBottom:20}}
       />
 
       {/* Content */}
