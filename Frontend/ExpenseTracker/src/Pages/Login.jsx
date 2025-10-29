@@ -29,6 +29,7 @@ function Login() {
       setError(data.message || "Login failed");
       return;
     }else {
+      console.log("Login successful", data.token);
       localStorage.setItem("token" , data.token);
       naviagte("/home");
     }
