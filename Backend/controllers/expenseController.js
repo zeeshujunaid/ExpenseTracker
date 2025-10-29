@@ -2,7 +2,7 @@ const User = require("../models/User");
 const Expense = require("../models/Expense");
 
 exports.addExpense = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user._id;
 
   try {
     const { icon, amount, category, date } = req.body;
