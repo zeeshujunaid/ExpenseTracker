@@ -1,28 +1,40 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import baseurl from "../service/config";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    const naviagte = useNavigate();
+  const naviagte = useNavigate();
 
-    const handleLogin = async () => {
-        email.preventDefault();
+  const handleLogin = async () => {
+    // email.preventDefault();
 
-        if (!email || !password) {
-            setError("Please fill in all fields");
-            return;
-        }
-
-        setError("");
-    
-        
-        // Simulate successful login
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
     }
 
+    setError("");
+    const response = await fetch(`${baseurl}/api/v1/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (!response.ok) {
+      setError(data.message || "Login failed");
+      return;
+    }else {
+      localStorage.setItem("token" , data.token);
+      naviagte("/home");
+    }
+
+  };
 
   return (
     <div
@@ -37,6 +49,8 @@ function Login() {
       <div
         style={{
           display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           flexDirection: "column",
           width: "50%",
         }}
@@ -92,6 +106,8 @@ function Login() {
             <input
               type="text"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               style={{
                 width: "32vw",
                 height: "4vh",
@@ -111,6 +127,8 @@ function Login() {
             <input
               type="password"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               style={{
                 width: "32vw",
                 height: "4vh",
@@ -125,6 +143,7 @@ function Login() {
             />
 
             <button
+              onClick={handleLogin}
               style={{
                 width: "33vw",
                 height: "55px",
@@ -154,26 +173,42 @@ function Login() {
       {/* Right Side */}
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
+          position: "relative", // Needed for overlay
           width: "50%",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#f8f9fdff",
-          gap: "20vh",
+          height: "100vh",
+          backgroundImage: `url("/bg.jpg")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
-        <img
-          src="/expense.png"
-          alt="Expense Tracker Illustration"
-          style={{ width: "30vw" }}
-        />
+        {/* Blur Overlay */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(248, 249, 253, 0.3)", // optional color overlay
+            backdropFilter: "blur(8px)", // this adds the blur
+            WebkitBackdropFilter: "blur(8px)", // Safari support
+          }}
+        ></div>
 
-        <img
-          src="/chart.png"
-          alt="Expense Tracker Illustration"
-          style={{ width: "25vw" }}
-        />
+        {/* Any content you want on top of the blurred image */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          {/* Your content here */}
+        </div>
       </div>
     </div>
   );

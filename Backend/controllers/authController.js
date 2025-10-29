@@ -2,8 +2,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 // generating jwt token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+const generateToken = (id,fullname,email) => {
+  return jwt.sign({ id,fullname,email, }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
 // register user
@@ -64,7 +64,7 @@ exports.loginUser = async (req, res) => {
       _id: user._id,
       fullname: user.fullname,
       email: user.email,
-      token: generateToken(user._id),
+      token: generateToken(user_id, user.fullname, user.email)
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
