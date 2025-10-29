@@ -10,7 +10,6 @@ function Login() {
   const naviagte = useNavigate();
 
   const handleLogin = async () => {
-    // email.preventDefault();
 
     if (!email || !password) {
       setError("Please fill in all fields");
@@ -36,178 +35,175 @@ function Login() {
 
   };
 
-  return (
+   return (
     <div
       style={{
+        margin: 0,
+        padding: 0,
         display: "flex",
-        width: "100vw",
+        justifyContent: "center",
+        alignItems: "center",
         height: "100vh",
-        fontFamily: "Arial, sans-serif",
+        width: "100vw",
+        backgroundImage:
+          "url('https://st3.depositphotos.com/10381014/19429/v/1600/depositphotos_194297666-stock-illustration-abstract-financial-chart-with-trend.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Left Side */}
+      {/* Glass container */}
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          width: "50%",
+          width: "85%",
+          height: "85vh",
+          background: "rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(14px)",
+          borderRadius: "20px",
+          overflow: "hidden",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
         }}
       >
-        {/* Header */}
+        {/* Left side (Form) */}
         <div
           style={{
-            width: "100%",
-            height: "100px",
+            width: "50%",
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
             alignItems: "center",
-            paddingLeft: "50px",
+            padding: "40px 20px",
+            color: "white",
+            // gap: "15px",
+            // transform: "scale(1.1)",
+            // transformOrigin: "center",
           }}
         >
-          <h1
+          <h2
             style={{
-              fontFamily: "monospace",
-              fontSize: "36px",
-              color: "black",
+              fontSize: "2.0rem",
+              marginBottom: "10px",
+              fontWeight: "900",
+              color: "#000",
             }}
           >
-            Expense Tracker
-          </h1>
-        </div>
-
-        {/* Centered Content */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            paddingLeft: "50px",
-            gap: "10px",
-            zoom: "1.1",
-          }}
-        >
-          <h1
-            style={{ color: "black", fontSize: "48px", marginBottom: "10px" }}
-          >
             Welcome Back
-          </h1>
-          <h3
-            style={{ color: "black", fontSize: "24px", marginBottom: "30px" }}
+          </h2>
+          <p
+            style={{
+              color: "#ddd",
+              marginBottom: "30px",
+              textAlign: "center",
+              maxWidth: "350px",
+              fontSize: "0.8rem",
+              color: "#000",
+              fontWeight: "500",
+              // lineHeight: "1.4",
+            }}
           >
-            Please enter your details to Login
-          </h3>
+           Please enter your details to log in to your account.
+          </p>
 
-          {/* Form */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "2vh" }}>
-            <label style={{ color: "black", fontSize: "2.2vh" }}>Email</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: "32vw",
-                height: "4vh",
-                color: "black",
-                borderRadius: "8px",
-                border: "1px solid #acababff",
-                paddingLeft: "12px",
-                fontSize: "1rem",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-              }}
-            />
+          {/* Normal Inputs */}
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              width: "80%",
+              height: "3vh",
+              padding: "14px 18px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,255,255,0.3)",
+              backgroundColor: "rgba(255,255,255,0.15)",
+              color: "#000",
+              fontSize: "16px",
+              outline: "none",
+              marginBottom: "20px",
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: "80%",
+              height: "3vh",
+              padding: "14px 18px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,255,255,0.3)",
+              backgroundColor: "rgba(255,255,255,0.15)",
+              color: "#000",
+              fontSize: "16px",
+              outline: "none",
+              marginBottom: "20px",
+            }}
+          />
 
-            <label style={{ color: "black", fontSize: "2.2vh" }}>
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: "32vw",
-                height: "4vh",
-                color: "black",
-                borderRadius: "8px",
-                border: "1px solid #acababff",
-                paddingLeft: "12px",
-                fontSize: "1rem",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-              }}
-            />
+          <button
+            style={{
+              width: "80%",
+              height: "7vh",
+              // padding: "14px",
+              borderRadius: "10px",
+              border: "none",
+              fontSize: "17px",
+              fontWeight: "600",
+              background: "linear-gradient(135deg, #007bff, #00bfff)",
+              color: "white",
+              // marginTop: "10px",
+              cursor: "pointer",
+            }}
+            onClick={handleLogin}
+          >
+            Login
+          </button>
 
-            <button
-              onClick={handleLogin}
+          <p
+            style={{
+              marginTop: "20px",
+              fontSize: "1.0rem",
+              color: "#000000ff",
+            }}
+          >
+            Dont have an account?{" "}
+            <a
+              href="/signup"
               style={{
-                width: "33vw",
-                height: "55px",
-                borderRadius: "8px",
-                border: "none",
-                backgroundColor: "#ac9ef8ff",
-                color: "white",
-                fontSize: "20px",
-                cursor: "pointer",
+                color: "#00bfff",
+                textDecoration: "none",
+                fontWeight: "600",
               }}
             >
-              Login
-            </button>
-
-            <div
-              style={{ marginTop: "20px", color: "black", fontSize: "2.2vh" }}
-            >
-              Don't have an account?{" "}
-              <a href="/signup" style={{ color: "blue" }}>
-                Sign Up
-              </a>
-            </div>
-          </div>
+              Signup
+            </a>
+          </p>
         </div>
-      </div>
 
-      {/* Right Side */}
-      <div
-        style={{
-          position: "relative", // Needed for overlay
-          width: "50%",
-          height: "100vh",
-          backgroundImage: `url("/bg.jpg")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Blur Overlay */}
+        {/* Right side (Image) */}
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(248, 249, 253, 0.3)", // optional color overlay
-            backdropFilter: "blur(8px)", // this adds the blur
-            WebkitBackdropFilter: "blur(8px)", // Safari support
-          }}
-        ></div>
-
-        {/* Any content you want on top of the blurred image */}
-        <div
-          style={{
-            position: "relative",
-            zIndex: 1,
+            width: "50%",
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            height: "100%",
+            backgroundColor: "#dbdbdb60",
           }}
         >
-          {/* Your content here */}
+          <img
+            src="/chart.png"
+            alt="Signup Illustration"
+            style={{
+              width: "80%",
+              height: "70%",
+              // objectFit: "cover",
+              borderRadius: "15px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+            }}
+          />
         </div>
       </div>
     </div>
