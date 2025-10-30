@@ -32,7 +32,7 @@ export default function ExpenseList() {
 
       const data = months.map((month, idx) => ({
         month,
-        Expense: expense  // use the fetched data directly
+        Expense: expense  
           .filter((i) => new Date(i.date).getMonth() === idx)
           .reduce((sum, i) => sum + Number(i.amount), 0),
       }));

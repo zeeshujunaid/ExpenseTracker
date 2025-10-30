@@ -29,7 +29,6 @@ export default function Dashboard() {
       try {
         const token = localStorage.getItem("token");
 
-        // Fetch Expenses
         const { data: expenses } = await axios.get(
           `${baseurl}/api/v1/expense/get`,
           {
@@ -42,7 +41,6 @@ export default function Dashboard() {
         );
         setTotalExpense(expenseSum);
 
-        // Fetch Incomes
         const { data: incomes } = await axios.get(
           `${baseurl}/api/v1/income/get`,
           {
@@ -52,7 +50,6 @@ export default function Dashboard() {
         const incomeSum = incomes.reduce((sum, i) => sum + Number(i.amount), 0);
         setTotalIncome(incomeSum);
 
-        // Prepare Chart Data (Monthly)
         const months = [
           "Jan",
           "Feb",
@@ -159,21 +156,18 @@ export default function Dashboard() {
                     formatter={(value) => `Rs. ${value}`}
                   />
                   <Legend wrapperStyle={{ color: "#fff" }} />
-                  {/* Bars */}
                   <Bar
                     dataKey="Income"
                     stackId="a"
                     fill="#4CAF50"
                     barSize={20}
                   />{" "}
-                  {/* green */}
                   <Bar
                     dataKey="Expense"
                     stackId="a"
                     fill="#F44336"
                     barSize={20}
                   />{" "}
-                  {/* red */}
                 </BarChart>
               </ResponsiveContainer>
             </div>

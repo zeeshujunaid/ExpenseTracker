@@ -51,4 +51,11 @@ exports.deleteIncome = async (req, res) => {
   }
 };
 
-exports.downloadincomeexcel = async (req, res) => {};
+exports.downloadincomeexcel = async (req, res) => {
+  try {
+    res.status(200).json({ message: "Coming Soon" });
+  } catch (error) {
+    console.error("Error in downloadExpenseExcel:", error);
+    res.status(500).json({ message: "coming" });
+  }
+};

@@ -20,10 +20,10 @@ export default function Sidebar({ setActiveScreen }) {
         width: '250px',
         backgroundColor: '#1f2937',
         color: 'white',
-        position: 'fixed', // <-- fixed position
+        position: 'fixed',
         top: 0,
         left: 0,
-        zIndex: 1000, // ensures sidebar is on top
+        zIndex: 1000,
         boxSizing: 'border-box',
       }}
     >

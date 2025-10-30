@@ -4,13 +4,11 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF6699", "#66CCFF"];
 
 export default function IncomeDonutChart({ income }) {
-  // Prepare data as [{ name, value }]
   const data = income.map((i, index) => ({
     name: `item-${index}`,
     value: Number(i.amount),
   }));
 
-  // Calculate total income
   const totalIncome = data.reduce((sum, i) => sum + i.value, 0);
 
   return (
@@ -39,8 +37,8 @@ export default function IncomeDonutChart({ income }) {
               innerRadius={80}
               outerRadius={120}
               fill="#8884d8"
-              paddingAngle={3} // small gap between slices
-              label={({ value }) => `Rs. ${value}`} // show value
+              paddingAngle={3} 
+              label={({ value }) => `Rs. ${value}`} 
             >
               {data.map((entry, index) => (
                 <Cell
