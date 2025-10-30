@@ -1,82 +1,118 @@
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF6699", "#66CCFF"];
+const Donutchart = ({ data, type = "income" }) => {
+  // Handle undefined or null data
+  if (!data || !Array.isArray(data)) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100%',
+        color: '#718096',
+        fontSize: '14px'
+      }}>
+        No {type} data available
+      </div>
+    );
+  }
 
-export default function IncomeDonutChart({ income }) {
-  const data = income.map((i, index) => ({
-    name: `item-${index}`,
-    value: Number(i.amount),
+  // Calculate category totals
+  const categoryMap = {};
+  data.forEach(item => {
+    if (item && item.category && item.amount) {
+      if (categoryMap[item.category]) {
+        categoryMap[item.category] += Number(item.amount);
+      } else {
+        categoryMap[item.category] = Number(item.amount);
+      }
+    }
+  });
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FF6B6B', '#4ECDC4'];
+
+  const chartData = Object.keys(categoryMap).map((category, index) => ({
+    name: category,
+    value: categoryMap[category],
+    color: COLORS[index % COLORS.length]
   }));
 
-  const totalIncome = data.reduce((sum, i) => sum + i.value, 0);
+  // Handle empty data
+  if (chartData.length === 0) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100%',
+        color: '#718096',
+        fontSize: '14px'
+      }}>
+        No {type} data available
+      </div>
+    );
+  }
+
+  const total = chartData.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        width: "100%",
-        borderRadius: 20,
-        boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-        marginTop: 24,
-        padding: 30,
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: 20, color: "#333" }}>
-        Income Donut
-      </h2>
-      <div style={{ position: "relative", height: 300 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={data}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius={80}
-              outerRadius={120}
-              fill="#8884d8"
-              paddingAngle={3} 
-              label={({ value }) => `Rs. ${value}`} 
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                  stroke="#fff"
-                  strokeWidth={2}
-                />
-              ))}
-            </Pie>
-            <Tooltip
-              formatter={(value) => `Rs. ${value}`}
-              contentStyle={{
-                backgroundColor: "#333",
-                border: "none",
-                borderRadius: 8,
-                color: "#fff",
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-        {/* Center Total */}
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            textAlign: "center",
-            pointerEvents: "none",
-          }}
-        >
-          <div style={{ fontSize: 16, color: "#666" }}>Total</div>
-          <div style={{ fontSize: 24, fontWeight: "bold", color: "#000" }}>
-            Rs. {totalIncome}
-          </div>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={80}
+            paddingAngle={2}
+            dataKey="value"
+          >
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip 
+            formatter={(value) => [`₹${value.toLocaleString()}`, 'Amount']}
+            contentStyle={{
+              backgroundColor: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+            }}
+          />
+          <Legend 
+            wrapperStyle={{
+              fontSize: '12px',
+              paddingTop: '10px'
+            }}
+            formatter={(value, entry, index) => (
+              <span style={{ color: '#4a5568', fontSize: '12px' }}>
+                {chartData[index]?.name}
+              </span>
+            )}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+      
+      {/* Center total display */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textAlign: 'center'
+      }}>
+        <div style={{ fontSize: '12px', color: '#718096' }}>
+          Total {type === 'income' ? 'Income' : 'Expenses'}
+        </div>
+        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2d3748' }}>
+          ₹{total.toLocaleString()}
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Donutchart;
