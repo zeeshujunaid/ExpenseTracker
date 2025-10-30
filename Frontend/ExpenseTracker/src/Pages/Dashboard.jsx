@@ -6,40 +6,88 @@ import ExpenseList from "../Components/ExpenseList";
 import IncomeList from "../Components/IncomeList";
 import axios from "axios";
 import baseurl from "../service/config";
+import Donutchart from "../Components/donutchart";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function Dashboard() {
-  const [activeScreen, setActiveScreen] = useState("dashboard"); // dashboard, add, income, expenseList, incomeList
+  const [activeScreen, setActiveScreen] = useState("dashboard");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
+  const [chartData, setChartData] = useState([]);
+  const [incomeCategoryData, setIncomeCategoryData] = useState([]);
 
-  // Fetch total expense and income
   useEffect(() => {
-    const fetchTotals = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
 
-        // Get expenses
-        const expenseRes = await axios.get(`${baseurl}/api/v1/expense/get`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const expenses = expenseRes.data;
-        const expenseSum = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+        // Fetch Expenses
+        const { data: expenses } = await axios.get(
+          `${baseurl}/api/v1/expense/get`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const expenseSum = expenses.reduce(
+          (sum, e) => sum + Number(e.amount),
+          0
+        );
         setTotalExpense(expenseSum);
 
-        // Get incomes
-        const incomeRes = await axios.get(`${baseurl}/api/v1/income/get`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const incomes = incomeRes.data;
+        // Fetch Incomes
+        const { data: incomes } = await axios.get(
+          `${baseurl}/api/v1/income/get`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const incomeSum = incomes.reduce((sum, i) => sum + Number(i.amount), 0);
         setTotalIncome(incomeSum);
+
+        // Prepare Chart Data (Monthly)
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        const data = months.map((month, idx) => ({
+          month,
+          Income: incomes
+            .filter((i) => new Date(i.date).getMonth() === idx)
+            .reduce((sum, i) => sum + Number(i.amount), 0),
+          Expense: expenses
+            .filter((e) => new Date(e.date).getMonth() === idx)
+            .reduce((sum, e) => sum + Number(e.amount), 0),
+        }));
+
+        setIncomeCategoryData(incomes);
+        setChartData(data);
       } catch (error) {
-        console.error("Error fetching totals:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchTotals();
-  }, []); // run once on mount
+    fetchData();
+  }, []);
+
+  if (!activeScreen) return null;
 
   return (
     <div
@@ -51,95 +99,106 @@ export default function Dashboard() {
         backgroundColor: "#f3f4f6",
       }}
     >
-      {/* Sidebar */}
-      <div>
-        <Sidebar setActiveScreen={setActiveScreen} />
-      </div>
-
-      {/* Main Content */}
-      <div
-        style={{
-          flex: 1,
-          marginLeft: "250px",
-          padding: "24px",
-          overflow: "auto",
-        }}
-      >
+      <Sidebar setActiveScreen={setActiveScreen} />
+      <div style={{ flex: 1, marginLeft: 250, padding: 24, overflow: "auto" }}>
         {activeScreen === "dashboard" && (
-          <div>
+          <>
             <h1
               style={{
-                color: "#111827",
-                fontSize: "32px",
+                fontSize: 32,
                 fontWeight: "bold",
-                marginBottom: "24px",
+                marginBottom: 24,
+                color: "#000",
               }}
             >
               Dashboard
             </h1>
 
+            {/* Totals */}
             <div
               style={{
                 display: "flex",
+                gap: 24,
                 flexWrap: "wrap",
-                gap: "24px",
-                marginBottom: "24px",
+                marginBottom: 24,
+                color: "#000",
               }}
             >
-              {/* Total Expense */}
-              <div
-                style={{
-                  flex: 1,
-                  minWidth: "200px",
-                  backgroundColor: "white",
-                  padding: "24px",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <div style={{ color: "#000", fontSize: "18px", fontWeight: "600" }}>
-                  Total Expense
-                </div>
-                <div style={{ color: "red", fontSize: "24px", fontWeight: "bold", marginTop: "8px" }}>
-                  Rs. {totalExpense}
-                </div>
-              </div>
+              <Card title="Total Expense" amount={totalExpense} color="red" />
+              <Card title="Total Income" amount={totalIncome} color="green" />
+              <Card
+                title="Balance"
+                amount={totalIncome - totalExpense}
+                color="blue"
+              />
+            </div>
 
-              {/* Total Income */}
-              <div
-                style={{
-                  flex: 1,
-                  minWidth: "200px",
-                  backgroundColor: "white",
-                  padding: "24px",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <div style={{ color: "#000", fontSize: "18px", fontWeight: "600" }}>Total Income</div>
-                <div style={{ color: "green", fontSize: "24px", fontWeight: "bold", marginTop: "8px" }}>
-                  Rs. {totalIncome}
-                </div>
-              </div>
+            {/* Chart */}
+            <div
+              style={{
+                background: "#000", // black background
+                borderRadius: 12,
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                marginBottom: 24,
+                padding: 20,
+              }}
+            >
+              <h2 style={{ marginBottom: 16, color: "#fff" }}>
+                Monthly Overview
+              </h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={chartData}>
+                  <XAxis dataKey="month" stroke="#fff" />
+                  <YAxis stroke="#fff" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#333",
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    formatter={(value) => `Rs. ${value}`}
+                  />
+                  <Legend wrapperStyle={{ color: "#fff" }} />
+                  {/* Bars */}
+                  <Bar
+                    dataKey="Income"
+                    stackId="a"
+                    fill="#4CAF50"
+                    barSize={20}
+                  />{" "}
+                  {/* green */}
+                  <Bar
+                    dataKey="Expense"
+                    stackId="a"
+                    fill="#F44336"
+                    barSize={20}
+                  />{" "}
+                  {/* red */}
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
 
-              {/* Balance */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
               <div
                 style={{
-                  flex: 1,
-                  minWidth: "200px",
-                  backgroundColor: "white",
-                  padding: "24px",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  display: "flex",
+                  flexDirection: "coloum",
+                  jsustifyContent: "center",
+                  alignItems: "center",
+                  width: "50%",
                 }}
               >
-                <div style={{ color: "#000", fontSize: "18px", fontWeight: "600" }}>Balance</div>
-                <div style={{ color: "blue", fontSize: "24px", fontWeight: "bold", marginTop: "8px" }}>
-                  Rs. {totalIncome - totalExpense}
-                </div>
+                <Donutchart income={incomeCategoryData} />
               </div>
             </div>
-          </div>
+          </>
         )}
 
         {activeScreen === "add" && <AddExpense />}
@@ -150,3 +209,22 @@ export default function Dashboard() {
     </div>
   );
 }
+
+// reusable Cards
+const Card = ({ title, amount, color }) => (
+  <div
+    style={{
+      flex: 1,
+      minWidth: 180,
+      background: "white",
+      padding: 20,
+      borderRadius: 12,
+      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    }}
+  >
+    <div style={{ fontWeight: 600, fontSize: 16 }}>{title}</div>
+    <div style={{ fontWeight: "bold", fontSize: 24, color, marginTop: 8 }}>
+      Rs. {amount}
+    </div>
+  </div>
+);

@@ -3,7 +3,7 @@ import axios from "axios";
 import baseurl from "../service/config";
 
 export default function AddIncome() {
-  const today = new Date().toISOString().split("T")[0]; // current date in YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0]; 
 
   const [icon, setIcon] = useState("💰");
   const [amount, setAmount] = useState("");

@@ -17,16 +17,16 @@ export default function AddExpense() {
       const token = localStorage.getItem("token");
       await axios.post(
         `${baseurl}/api/v1/expense/add`,
-        { icon, amount, category, date }, // date will be user changed or default
+        { icon, amount, category, date },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage("✅ Expense added successfully!");
+      setMessage("Expense added successfully!");
       setAmount("");
       setCategory("");
       setDate(today); // reset to current date
     } catch (error) {
       console.error("Error adding expense:", error);
-      setMessage("❌ Failed to add expense!");
+      setMessage("Failed to add expense!");
     }
   };
 
@@ -37,6 +37,7 @@ export default function AddExpense() {
         justifyContent: "center",
         alignItems: "flex-start",
         flex: 1,
+        width: "100%",
         background: "#f8f9fd",
         fontFamily: "sans-serif",
         minHeight: "100%",
@@ -48,10 +49,10 @@ export default function AddExpense() {
         style={{
           background: "#fff",
           padding: "30px",
-          marginTop: "40px",
+          marginTop: "20px",
           borderRadius: "10px",
-          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-          width: "350px",
+          boxShadow: "0 4px 15px rgba(99, 98, 98, 0.1)",
+          width: "330px",
           display: "flex",
           flexDirection: "column",
           gap: "15px",
@@ -65,7 +66,7 @@ export default function AddExpense() {
         <select
           value={icon}
           onChange={(e) => setIcon(e.target.value)}
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #e6e5e5ff",backgroundColor:"#fff",color:"#000" }}
         >
           <option>💰</option>
           <option>🍔</option>
@@ -81,7 +82,7 @@ export default function AddExpense() {
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter amount"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #e6e3e3ff",backgroundColor:"#fff",color:"#000" }}
         />
 
         <label>Category</label>
@@ -91,7 +92,7 @@ export default function AddExpense() {
           onChange={(e) => setCategory(e.target.value)}
           placeholder="e.g. Food, Travel"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc",backgroundColor:"#fff",color:"#000" }}
         />
 
         <label>Date</label>
@@ -100,7 +101,7 @@ export default function AddExpense() {
           value={date}
           onChange={(e) => setDate(e.target.value)} // user change updates state
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc",backgroundColor:"#fff",color:"#000", }}
         />
 
         <button
