@@ -2,32 +2,32 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import baseurl from "../service/config"
 
-export default function ExpenseList() {
-  const [expenses, setExpenses] = useState([]);
+export default function IncomeList() {
+  const [income, setIncome] = useState([]);
 
   useEffect(() => {
-    const fetchExpenses = async () => {
+    const fetchIncome = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${baseurl}/api/v1/expense/get`, {
+        const res = await axios.get(`${baseurl}/api/v1/income/get`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setExpenses(res.data);
-        console.log("Fetched Expenses:", res.data);
+        setIncome(res.data);
+        console.log("Fetched Income:", res.data);
       } catch (error) {
-        console.error("Error fetching expenses:", error);
+        console.error("Error fetching Income:", error);
       }
     };
 
-    fetchExpenses();
+    fetchIncome();
   }, []);
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{ marginBottom: "10px",color:"#000" }}>Your Expenses</h2>
+      <h2 style={{ marginBottom: "10px",color:"#000" }}>Your Income</h2>
 
-      {expenses.length === 0 ? (
-        <p style={{ color: "#777" }}>No expenses added yet.</p>
+      {income.length === 0 ? (
+        <p style={{ color: "#777" }}>No Income added yet.</p>
       ) : (
         <div
           style={{
@@ -37,7 +37,7 @@ export default function ExpenseList() {
             marginTop: "15px",
           }}
         >
-          {expenses.map((exp) => (
+          {income.map((exp) => (
             <div
               key={exp._id}
               style={{
@@ -49,7 +49,7 @@ export default function ExpenseList() {
                 border: "1px solid #eee",
               }}
             >
-              <h3 style={{ marginBottom: "8px",color:"#000" }}>
+              <h3 style={{ marginBottom: "8px" }}>
                 {exp.icon} {exp.category}
               </h3>
               <p style={{ fontWeight: "bold", color: "#007bff" }}>

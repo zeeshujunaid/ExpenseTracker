@@ -5,9 +5,9 @@ exports.addIncome = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const { icon, amount, source, date } = req.body;
+    const { icon, amount, category, date } = req.body;
 
-    if (!icon || !amount || !source || !date) {
+    if (!icon || !amount || !category || !date) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -15,7 +15,7 @@ exports.addIncome = async (req, res) => {
       userId,
       icon,
       amount,
-      source,
+      category,
       date: new Date(date),
     });
 
@@ -30,10 +30,10 @@ exports.addIncome = async (req, res) => {
 };
 
 exports.getAllIncomes = async (req, res) => {
-  const UserId = req.user.id;
+  const userId = req.user.id; 
 
   try{
-    const income = await Income.find({UserId}).sort({date: -1});
+    const income = await Income.find({userId}).sort({date: -1});
     res.status(200).json(income);
   }catch(error){
     console.error("Error fetching incomes:", error);

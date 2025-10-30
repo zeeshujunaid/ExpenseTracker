@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import baseurl from "../service/config";
 
-export default function AddExpense() {
+export default function AddIncome() {
   const today = new Date().toISOString().split("T")[0]; // current date in YYYY-MM-DD
 
   const [icon, setIcon] = useState("💰");
@@ -11,22 +11,22 @@ export default function AddExpense() {
   const [date, setDate] = useState(today); // default current date
   const [message, setMessage] = useState("");
 
-  const handleAddExpense = async (e) => {
+  const handleAddincome = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${baseurl}/api/v1/expense/add`,
-        { icon, amount, category, date }, // date will be user changed or default
+        `${baseurl}/api/v1/income/add`,
+        { icon, amount, category, date },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage("✅ Expense added successfully!");
+      setMessage("✅ income added successfully!");
       setAmount("");
       setCategory("");
       setDate(today); // reset to current date
     } catch (error) {
-      console.error("Error adding expense:", error);
-      setMessage("❌ Failed to add expense!");
+      console.error("Error adding income:", error);
+      setMessage("❌ Failed to add income!");
     }
   };
 
@@ -44,7 +44,7 @@ export default function AddExpense() {
       }}
     >
       <form
-        onSubmit={handleAddExpense}
+        onSubmit={handleAddincome}
         style={{
           background: "#fff",
           padding: "30px",
@@ -58,7 +58,7 @@ export default function AddExpense() {
         }}
       >
         <h2 style={{ textAlign: "center", color: "#333", marginBottom: "10px" }}>
-          Add New Expense
+          Add New income
         </h2>
 
         <label>Icon</label>
@@ -115,7 +115,7 @@ export default function AddExpense() {
             fontWeight: "bold",
           }}
         >
-          Add Expense
+          Add income
         </button>
 
         {message && (

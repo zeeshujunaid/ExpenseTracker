@@ -31,7 +31,7 @@ function Login() {
     }else {
       console.log("Login successful", data.token);
       localStorage.setItem("token" , data.token);
-      naviagte("/home");
+      naviagte("/dashboard");
     }
 
   };
