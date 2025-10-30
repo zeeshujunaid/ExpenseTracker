@@ -20,13 +20,13 @@ export default function AddIncome() {
         { icon, amount, category, date },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage("✅ income added successfully!");
+      setMessage(" income added successfully!");
       setAmount("");
       setCategory("");
       setDate(today); // reset to current date
     } catch (error) {
       console.error("Error adding income:", error);
-      setMessage("❌ Failed to add income!");
+      setMessage(" Failed to add income!");
     }
   };
 
@@ -61,11 +61,17 @@ export default function AddIncome() {
           Add New income
         </h2>
 
-        <label>Icon</label>
+        <label style={{color:"#000"}}>Icon</label>
         <select
           value={icon}
           onChange={(e) => setIcon(e.target.value)}
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         >
           <option>💰</option>
           <option>🍔</option>
@@ -74,33 +80,51 @@ export default function AddIncome() {
           <option>🛍️</option>
         </select>
 
-        <label>Amount (Rs)</label>
+        <label style={{color:"#000"}}>Amount (Rs)</label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter amount"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+         style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         />
 
-        <label>Category</label>
+        <label style={{color:"#000"}}>Category</label>
         <input
           type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           placeholder="e.g. Food, Travel"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         />
 
-        <label>Date</label>
+        <label style={{color:"#000"}}>Date</label>
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)} // user change updates state
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         />
 
         <button

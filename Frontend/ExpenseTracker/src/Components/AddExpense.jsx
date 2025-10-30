@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import baseurl from "../service/config";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default function AddExpense() {
-  const today = new Date().toISOString().split("T")[0]; // current date in YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
 
   const [icon, setIcon] = useState("💰");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
-  const [date, setDate] = useState(today); // default current date
+  const [date, setDate] = useState(today);
   const [message, setMessage] = useState("");
 
   const handleAddExpense = async (e) => {
@@ -23,7 +24,7 @@ export default function AddExpense() {
       setMessage("Expense added successfully!");
       setAmount("");
       setCategory("");
-      setDate(today); // reset to current date
+      setDate(today);
     } catch (error) {
       console.error("Error adding expense:", error);
       setMessage("Failed to add expense!");
@@ -58,15 +59,23 @@ export default function AddExpense() {
           gap: "15px",
         }}
       >
-        <h2 style={{ textAlign: "center", color: "#333", marginBottom: "10px" }}>
+        <h2
+          style={{ textAlign: "center", color: "#333", marginBottom: "10px" }}
+        >
           Add New Expense
         </h2>
 
-        <label>Icon</label>
+        <label style={{color:"#000"}}>Icon</label>
         <select
           value={icon}
           onChange={(e) => setIcon(e.target.value)}
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #e6e5e5ff",backgroundColor:"#fff",color:"#000" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #e6e5e5ff",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         >
           <option>💰</option>
           <option>🍔</option>
@@ -75,33 +84,64 @@ export default function AddExpense() {
           <option>🛍️</option>
         </select>
 
-        <label>Amount (Rs)</label>
+        <label  style={{color:"#000"}} >Amount (Rs)</label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter amount"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #e6e3e3ff",backgroundColor:"#fff",color:"#000" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #e6e3e3ff",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         />
 
-        <label>Category</label>
+        <label  style={{color:"#000"}}>Category</label>
         <input
           type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           placeholder="e.g. Food, Travel"
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc",backgroundColor:"#fff",color:"#000" }}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
         />
 
-        <label>Date</label>
+        <label  style={{color:"#000"}}>Date</label>
         <input
           type="date"
           value={date}
-          onChange={(e) => setDate(e.target.value)} // user change updates state
+          onChange={(e) => setDate(e.target.value)}
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc",backgroundColor:"#fff",color:"#000", }}
+          style={{
+            padding: "10px 40px 10px 10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            backgroundColor: "#ffffffff",
+            color: "#000000ff",
+            appearance: "none",
+            WebkitAppearance: "none",
+            MozAppearance: "textfield",
+          }}
+        />
+        <FaRegCalendarAlt
+          style={{
+            position: "absolute",
+            right: "30vw",
+            top: "76%",
+            transform: "translateY(-50%)",
+            color: "#000",
+            pointerEvents: "none",
+          }}
         />
 
         <button
@@ -120,7 +160,9 @@ export default function AddExpense() {
         </button>
 
         {message && (
-          <p style={{ textAlign: "center", color: "#555", marginTop: "10px" }}>{message}</p>
+          <p style={{ textAlign: "center", color: "#555", marginTop: "10px" }}>
+            {message}
+          </p>
         )}
       </form>
     </div>

@@ -67,7 +67,7 @@ export default function IncomeList() {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: "20px",
+            gap: "10px",
             marginTop: "15px",
           }}
         >
@@ -78,7 +78,7 @@ export default function IncomeList() {
                 width: "220px",
                 borderRadius: "10px",
                 background: "#fff",
-                padding: "15px",
+                padding: "10px",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
                 border: "1px solid #eee",
               }}
