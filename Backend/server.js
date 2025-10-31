@@ -8,16 +8,15 @@ const incomeRoutes = require('./routes/incomeRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
 const app = express();
 
-app.use(express.json());
 
+app.use(express.json());
 // Middleware to handle cors
 app.use(
-    // cors({
-    //     origin: process.env.CLIENT_URL || '*',
-    //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    //     allowedHeaders: ['Content-Type', 'Authorization'],
-    // })
-    cors()
+    cors({
+        origin: process.env.CLIENT_URL || '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
 );
 
 

@@ -14,6 +14,10 @@ exports.registerUser = async (req, res) => {
     return res.status(400).json({ message: "Please fill all required fields" });
   }
 
+  if(!profileImgurl){
+    return res.status(400).json({ message: "Please Select an Image" });
+  }
+
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
