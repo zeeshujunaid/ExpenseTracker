@@ -8,6 +8,7 @@ const incomeRoutes = require('./routes/incomeRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
 const app = express();
 
+app.use(express.json());
 
 // Middleware to handle cors
 app.use(
@@ -19,7 +20,6 @@ app.use(
     cors()
 );
 
-app.use(express.json());
 
 connectDB(); 
 
