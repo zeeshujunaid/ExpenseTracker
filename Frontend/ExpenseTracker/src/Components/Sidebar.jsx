@@ -8,7 +8,7 @@ import {
   FaChartLine,
   FaSignOutAlt
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { href, useNavigate } from "react-router-dom";
 
 export default function Sidebar({ setActiveScreen }) {
   const [activeButton, setActiveButton] = useState("dashboard");
@@ -19,40 +19,49 @@ export default function Sidebar({ setActiveScreen }) {
   const buttons = [
     { 
       label: "Dashboard", 
-      screen: "dashboard", 
+      screen: "dashboard",
+      href:"/dashboard", 
       icon: <FaTachometerAlt /> 
     },
     { 
       label: "Add Expense", 
       screen: "add", 
+      href:"/addexpense", 
       icon: <FaPlusCircle /> 
     },
     { 
       label: "Add Income", 
+      href:"/addincome", 
       screen: "income", 
       icon: <FaMoneyBillWave /> 
     },
     { 
       label: "Expense List", 
+      href:"/ExpenseList", 
       screen: "expenseList", 
       icon: <FaReceipt /> 
     },
     { 
       label: "Income List", 
-      screen: "incomeList", 
+      screen: "incomeList",
+      href:"/IncomeList",
       icon: <FaListAlt /> 
     },
   ];
 
-  const handleButtonClick = (screen) => {
-    setActiveScreen(screen);
-    setActiveButton(screen);
+  const handleButtonClick = (screen, href) => {
+    // setActiveScreen(screen);
+    setActiveButton(href);
+    console.log(href)
+    navigate(href)
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
+  // console.log("activ btn ==>");
+  
 
   return (
     <div
@@ -123,7 +132,7 @@ export default function Sidebar({ setActiveScreen }) {
         {buttons.map((btn, index) => (
           <button
             key={index}
-            onClick={() => handleButtonClick(btn.screen)}
+            onClick={() => handleButtonClick(btn.href, btn.href)}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -131,7 +140,7 @@ export default function Sidebar({ setActiveScreen }) {
               textAlign: 'left',
               padding: '12px 16px',
               borderRadius: '8px',
-              backgroundColor: activeButton === btn.screen 
+              backgroundColor: activeButton === btn.href 
                 ? 'rgba(255, 255, 255, 0.2)' 
                 : 'transparent',
               border: 'none',

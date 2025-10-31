@@ -13,7 +13,7 @@ const Donutchart = ({ data, type = "income" }) => {
         color: '#718096',
         fontSize: '14px'
       }}>
-        No {type} data available
+        No data available
       </div>
     );
   }
@@ -49,7 +49,7 @@ const Donutchart = ({ data, type = "income" }) => {
         color: '#718096',
         fontSize: '14px'
       }}>
-        No {type} data available
+        No data available
       </div>
     );
   }

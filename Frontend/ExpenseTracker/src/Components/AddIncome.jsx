@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import baseurl from "../service/config";
 import { FaRegCalendarAlt, FaPlus, FaCheck } from "react-icons/fa";
+import Sidebar from "./Sidebar";
 
 export default function AddIncome() {
   const today = new Date().toISOString().split("T")[0]; 
+  const [activeScreen, setActiveScreen] = useState("dashboard");
+
 
   const [icon, setIcon] = useState("💰");
   const [amount, setAmount] = useState("");
@@ -47,19 +50,30 @@ export default function AddIncome() {
   ];
 
   return (
+   <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        width: "100vw",
+        fontFamily: "'Inter', sans-serif",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+      }}
+    >
+    <Sidebar setActiveScreen={setActiveScreen}/>
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
         flex: 1,
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         fontFamily: "'Inter', sans-serif",
         minHeight: "100vh",
         boxSizing: "border-box",
         padding: "20px",
       }}
     >
+
       <form
         onSubmit={handleAddIncome}
         style={{
@@ -337,6 +351,8 @@ export default function AddIncome() {
           </div>
         )}
       </form>
+    </div>
+
     </div>
   );
 }

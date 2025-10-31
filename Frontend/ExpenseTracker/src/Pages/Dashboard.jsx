@@ -134,7 +134,7 @@ export default function Dashboard() {
         background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
       }}
     >
-      <Sidebar setActiveScreen={setActiveScreen} />
+      <Sidebar />
       <div style={{ 
         flex: 1, 
         marginLeft: 280, 
@@ -459,10 +459,10 @@ export default function Dashboard() {
           </>
         )}
 
-        {activeScreen === "add" && <AddExpense />}
+        {/* {activeScreen === "add" && <AddExpense />}
         {activeScreen === "income" && <AddIncome />}
         {activeScreen === "expenseList" && <ExpenseList />}
-        {activeScreen === "incomeList" && <IncomeList />}
+        {activeScreen === "incomeList" && <IncomeList />} */}
       </div>
     </div>
   );

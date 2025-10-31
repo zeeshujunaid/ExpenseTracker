@@ -13,6 +13,7 @@ import {
   Pie,
   Cell
 } from "recharts";
+import Sidebar from "./Sidebar";
 import { FaChartLine, FaMoneyBillWave, FaTrash, FaFilter, FaDollarSign } from "react-icons/fa";
 
 export default function IncomeList() {
@@ -82,7 +83,7 @@ export default function IncomeList() {
     if (window.confirm("Are you sure you want to delete this income?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`${baseurl}/api/v1/income/delete/${id}`, {
+        await axios.delete(`${baseurl}/api/v1/income/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIncome(income.filter(inc => inc._id !== id));
@@ -122,11 +123,22 @@ export default function IncomeList() {
   }
 
   return (
+    <div
+          style={{
+            display: "flex",
+            minHeight: "100vh",
+            width: "100vw",
+            fontFamily: "'Inter', sans-serif",
+            background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+          }}
+        >
+          <Sidebar />
     <div style={{ 
-      padding: "30px", 
-      background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
-      minHeight: "100vh",
-      fontFamily: "'Inter', sans-serif"
+        flex: 1, 
+        marginLeft: 280, 
+        padding: "30px", 
+        overflow: "auto",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
     }}>
       {/* Header Section */}
       <div style={{
@@ -448,6 +460,7 @@ export default function IncomeList() {
           </>
         )}
       </div>
+    </div>
     </div>
   );
 }
